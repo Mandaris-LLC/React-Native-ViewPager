@@ -29,7 +29,6 @@ export default class PagerTitleIndicator extends Component {
             contentContainerStyle: ViewPropTypes.bool
         }),
         selectedItemStyle: ViewPropTypes.style,
-        selectedItemStyle: ViewPropTypes.style,
         itemTextStyle: Text.propTypes.style,
         trackScroll: PropTypes.bool,
         selectedItemTextStyle: Text.propTypes.style,
