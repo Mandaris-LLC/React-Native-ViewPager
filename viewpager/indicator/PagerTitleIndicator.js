@@ -95,10 +95,11 @@ export default class PagerTitleIndicator extends Component {
                 spacingView = <View style={{ width: this.props.spacing }} />
             }
             return (
-                <View key={index}>
+                <>
                     <TouchableOpacity
                         style={[styles.titleContainer, itemMarginObj, itemStyle, isSelected ? selectedItemStyle : {}]}
                         activeOpacity={0.6}
+                        key={index}
                         onLayout={e => {
                             itemLayoutInfo[index] = e.nativeEvent;
                         }}
@@ -114,7 +115,7 @@ export default class PagerTitleIndicator extends Component {
                         {isSelected ? <View style={[styles.selectedBorder, selectedBorderStyle]} /> : null}
                     </TouchableOpacity>
                     {spacingView}
-                </View>
+                </>
             )
         })
         return (
