@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, ViewPropTypes, Text, TouchableOpacity,ScrollView ,Dimensions} from 'react-native'
+import { StyleSheet, View, ViewPropTypes, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import IndicatorViewPager from '../IndicatorViewPager'
 
 const itemLayoutInfo = [];
@@ -24,9 +24,14 @@ export default class PagerTitleIndicator extends Component {
         pager: PropTypes.instanceOf(IndicatorViewPager),
         titles: PropTypes.arrayOf(PropTypes.string).isRequired,
         itemStyle: ViewPropTypes.style,
+        scrollView: PropTypes.shape({
+            style: ViewPropTypes.style,
+            scrollEnabled: ViewPropTypes.bool
+        }),
+        selectedItemStyle: ViewPropTypes.style,
         selectedItemStyle: ViewPropTypes.style,
         itemTextStyle: Text.propTypes.style,
-        trackScroll:PropTypes.bool,
+        trackScroll: PropTypes.bool,
         selectedItemTextStyle: Text.propTypes.style,
         selectedBorderStyle: ViewPropTypes.style,
         renderTitle: PropTypes.func
@@ -34,7 +39,8 @@ export default class PagerTitleIndicator extends Component {
 
     static defaultProps = {
         titles: [],
-        initialPage: 0
+        initialPage: 0,
+        scrollView: {}
     }
 
     state = {
@@ -49,7 +55,7 @@ export default class PagerTitleIndicator extends Component {
         this._titleCount = props.titles.length || 0;
     }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         return this.state.selectedIndex != nextState.selectedIndex ||
             this.props.titles + '' != nextProps.titles + '' ||
             this.props.style != nextProps.style ||
@@ -58,13 +64,13 @@ export default class PagerTitleIndicator extends Component {
             this.props.selectedItemTextStyle != nextProps.selectedItemTextStyle ||
             this.props.selectedBorderStyle != nextProps.selectedBorderStyle
     }
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         this._titleCount = nextProps.titles.length;
     }
 
-    render () {
-        let {titles, pager, itemStyle, selectedItemStyle, itemTextStyle, selectedItemTextStyle, selectedBorderStyle} = this.props
-        if (!titles || titles.length === 0)return null
+    render() {
+        let { titles, pager, itemStyle, selectedItemStyle, itemTextStyle, selectedItemTextStyle, selectedBorderStyle, scrollView } = this.props
+        if (!titles || titles.length === 0) return null
 
         let titleViews = titles.map((title, index) => {
             let isSelected = this.state.selectedIndex === index
@@ -74,8 +80,8 @@ export default class PagerTitleIndicator extends Component {
             if (!itemStyle && !selectedItemStyle) {
                 itemMarginObj =
                     index < this._titleCount - 1
-                    ? { marginLeft: itemMargin }
-                    : { marginLeft: itemMargin, marginRight: itemMargin };
+                        ? { marginLeft: itemMargin }
+                        : { marginLeft: itemMargin, marginRight: itemMargin };
             }
 
             const titleView = this.props.renderTitle ? this.props.renderTitle(index, title, isSelected) : (
@@ -86,17 +92,18 @@ export default class PagerTitleIndicator extends Component {
 
             return (
                 <TouchableOpacity
-                    style={[styles.titleContainer, itemMarginObj, isSelected ? selectedItemStyle : itemStyle]}
+                    style={[styles.titleContainer, itemMarginObj, itemStyle, isSelected ? selectedItemStyle : {}]}
                     activeOpacity={0.6}
                     key={index}
                     onLayout={e => {
                         itemLayoutInfo[index] = e.nativeEvent;
                     }}
                     onPress={() => {
-                        if(this.props.trackScroll === true){
+                        if (this.props.trackScroll === true) {
                             this._visibleDetect(index);
                         }
-                        !isSelected && pager.setPage(index)}
+                        !isSelected && pager.setPage(index)
+                    }
                     }
                 >
                     {titleView}
@@ -106,19 +113,20 @@ export default class PagerTitleIndicator extends Component {
         })
         return (
             <View style={[styles.indicatorContainer, this.props.style]} >
-                 <ScrollView
+                <ScrollView
                     scrollEventThrottle={1}
                     onScroll={e => {
                         this._contentHorOffset = e.nativeEvent.contentOffset.x;
                         this._currentMaxHor = screenWidth + this._contentHorOffset;
                     }}
+                    {...scrollView}
                     showsHorizontalScrollIndicator={false}
                     ref={c => {
                         this.scroller = c;
                     }}
                     horizontal={true}
                     style={{ flex: 1 }}
-                    >
+                >
                     {titleViews}
                 </ScrollView>
             </View>
@@ -126,7 +134,7 @@ export default class PagerTitleIndicator extends Component {
     }
 
     _visibleDetect(selectedIndex) {
-        if(selectedIndex > this._titleCount -1 ) return ;
+        if (selectedIndex > this._titleCount - 1) return;
 
         const curItemLayoutInfo = itemLayoutInfo[selectedIndex];
         const { width, x: curItemOffsetX } = curItemLayoutInfo.layout;
@@ -179,12 +187,12 @@ export default class PagerTitleIndicator extends Component {
         }
     }
 
-    onPageSelected (e) {
-        if(this.props.trackScroll === true){
+    onPageSelected(e) {
+        if (this.props.trackScroll === true) {
             this._visibleDetect(e.position);
         }
         this._preSelectedIndex = e.position;
-        this.setState({selectedIndex: e.position})
+        this.setState({ selectedIndex: e.position })
     }
 }
 
