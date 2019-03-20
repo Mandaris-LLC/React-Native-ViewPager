@@ -52,7 +52,6 @@ declare module 'rn-viewpager' {
     selectedItemTextStyle?: ViewProperties['style'];
     selectedBorderStyle?: ViewProperties['style'];
     renderTitle(index: number, title: string, isSelected: boolean): JSX.Element;
-    spacing?: number;
   }
   export class PagerTitleIndicator extends React.Component<PageTitleIndicatorProps> { }
 

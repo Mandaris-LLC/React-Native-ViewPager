@@ -34,8 +34,7 @@ export default class PagerTitleIndicator extends Component {
         trackScroll: PropTypes.bool,
         selectedItemTextStyle: Text.propTypes.style,
         selectedBorderStyle: ViewPropTypes.style,
-        renderTitle: PropTypes.func,
-        spacing: PropTypes.number
+        renderTitle: PropTypes.func
     }
 
     static defaultProps = {
@@ -70,7 +69,7 @@ export default class PagerTitleIndicator extends Component {
     }
 
     render() {
-        let { titles, pager, itemStyle, selectedItemStyle, itemTextStyle, selectedItemTextStyle, selectedBorderStyle, scrollView, spacing } = this.props
+        let { titles, pager, itemStyle, selectedItemStyle, itemTextStyle, selectedItemTextStyle, selectedBorderStyle, scrollView } = this.props
         if (!titles || titles.length === 0) return null
 
         let titleViews = titles.map((title, index) => {
@@ -90,32 +89,26 @@ export default class PagerTitleIndicator extends Component {
                     {title}
                 </Text>
             )
-            let spacingView = <></>
-            if (spacing && index < (titles.length - 1)) {
-                spacingView = <View style={{ width: this.props.spacing }} />
-            }
+
             return (
-                <>
-                    <TouchableOpacity
-                        style={[styles.titleContainer, itemMarginObj, itemStyle, isSelected ? selectedItemStyle : {}]}
-                        activeOpacity={0.6}
-                        key={index}
-                        onLayout={e => {
-                            itemLayoutInfo[index] = e.nativeEvent;
-                        }}
-                        onPress={() => {
-                            if (this.props.trackScroll === true) {
-                                this._visibleDetect(index);
-                            }
-                            !isSelected && pager.setPage(index)
+                <TouchableOpacity
+                    style={[styles.titleContainer, itemMarginObj, itemStyle, isSelected ? selectedItemStyle : {}]}
+                    activeOpacity={0.6}
+                    key={index}
+                    onLayout={e => {
+                        itemLayoutInfo[index] = e.nativeEvent;
+                    }}
+                    onPress={() => {
+                        if (this.props.trackScroll === true) {
+                            this._visibleDetect(index);
                         }
-                        }
-                    >
-                        {titleView}
-                        {isSelected ? <View style={[styles.selectedBorder, selectedBorderStyle]} /> : null}
-                    </TouchableOpacity>
-                    {spacingView}
-                </>
+                        !isSelected && pager.setPage(index)
+                    }
+                    }
+                >
+                    {titleView}
+                    {isSelected ? <View style={[styles.selectedBorder, selectedBorderStyle]} /> : null}
+                </TouchableOpacity>
             )
         })
         return (
