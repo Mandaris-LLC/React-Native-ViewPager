@@ -26,7 +26,7 @@ export default class PagerTitleIndicator extends Component {
         itemStyle: ViewPropTypes.style,
         scrollView: PropTypes.shape({
             style: ViewPropTypes.style,
-            scrollEnabled: ViewPropTypes.bool
+            contentContainerStyle: ViewPropTypes.bool
         }),
         selectedItemStyle: ViewPropTypes.style,
         selectedItemStyle: ViewPropTypes.style,

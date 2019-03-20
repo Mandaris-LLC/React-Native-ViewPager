@@ -44,7 +44,7 @@ declare module 'rn-viewpager' {
     trackScroll?: boolean;
     itemStyle?: ViewProperties['style'];
     scrollView?: {
-      style?: ViewProperties['style'],
+      contentContainerStyle?: ViewProperties['style'],
       scrollEnabled?: boolean
     };
     selectedItemStyle?: ViewProperties['style'];
