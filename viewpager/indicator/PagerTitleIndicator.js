@@ -92,7 +92,7 @@ export default class PagerTitleIndicator extends Component {
 
             return (
                 <TouchableOpacity
-                    style={[styles.titleContainer, itemMarginObj, itemStyle, isSelected ? selectedItemStyle : {}]}
+                    style={[styles.titleContainer, itemMarginObj, isSelected ? selectedItemStyle : itemStyle]}
                     activeOpacity={0.6}
                     key={index}
                     onLayout={e => {
