@@ -1,7 +1,7 @@
 declare module 'rn-viewpager' {
 
   import * as React from 'react';
-  import { ImageURISource, ViewProperties, NativeScrollEvent, NativeSyntheticEvent, ViewPagerAndroidOnPageScrollEventData } from 'react-native';
+  import { ImageURISource, ViewProperties, TextProperties, NativeScrollEvent, NativeSyntheticEvent, ViewPagerAndroidOnPageScrollEventData } from 'react-native';
 
   interface ViewPagerProps extends ViewProperties {
     initialPage?: number;
@@ -49,7 +49,7 @@ declare module 'rn-viewpager' {
     };
     selectedItemStyle?: ViewProperties['style'];
     itemTextStyle?: ViewProperties['style'];
-    selectedItemTextStyle?: ViewProperties['style'];
+    selectedItemTextStyle?: TextProperties['style'];
     selectedBorderStyle?: ViewProperties['style'];
     renderTitle(index: number, title: string, isSelected: boolean): JSX.Element;
   }
