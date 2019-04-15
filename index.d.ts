@@ -23,7 +23,7 @@ declare module 'rn-viewpager' {
     autoPlayEnable?: boolean;
     autoPlayInterval?: boolean;
     horizontalScroll?: boolean;
-
+    onPageSelected?(e: ViewPagerAndroidOnPageScrollEventData): void;
   }
   export class IndicatorViewPager extends React.Component<IndicatorViewPagerProps> {
     setPage(selectedPage: number): void;
